@@ -11,7 +11,7 @@ import axiosInstance from '../services/axios';
 import { withAuth } from '../middleware/withAuth';
 import { Toast } from '../components/Toast';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_CHAT_URL;
 
 const CONNECTION_STATUS = {
   CHECKING: 'checking',
@@ -301,6 +301,7 @@ function ChatRoomsComponent() {
       await attemptConnection();
 
       const response = await axiosInstance.get('/api/rooms', {
+        baseURL : API_URL,
         params: {
           page: isLoadingMore ? pageIndex : 0,
           pageSize,
