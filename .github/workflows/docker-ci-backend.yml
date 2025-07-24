@@ -27,5 +27,5 @@ jobs:
       - name: Build and push Docker image
         working-directory: backend
         run: |
-          docker build -t 1-load-test-be:latest .
-          docker push 1-load-test-be:latest
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest
