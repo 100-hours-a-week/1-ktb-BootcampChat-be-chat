@@ -2,7 +2,7 @@ name: Backend CI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ dev ]
   workflow_dispatch:
 
 jobs:
@@ -14,6 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create .env file from ENV_DEV secret
+        working-directory: backend
         run: |
           echo "${{ secrets.ENV_DEV }}" > .env
 
@@ -24,6 +25,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build and push Docker image
+        working-directory: backend
         run: |
-          docker build -t 1-load-test-be:latest .
-          docker push 1-load-test-be:latest
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest

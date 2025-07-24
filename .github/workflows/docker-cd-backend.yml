@@ -2,7 +2,8 @@ name: Backend CD
 
 on:
   push:
-    branches: [ main, dev ]
+    branches:
+      - dev
   workflow_dispatch:
 
 jobs:
@@ -21,8 +22,8 @@ jobs:
       - name: Deploy on AWS server (Pull and run 1-load-test-be:latest on 8080)
         run: |
           ssh -o StrictHostKeyChecking=no -i aws-key.pem ubuntu@${{ secrets.AWS_HOST_DEV }} << 'EOF'
-            docker pull 1-load-test-be:latest
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest
             docker stop 1-load-test-be || true
             docker rm 1-load-test-be || true
-            docker run -d --name 1-load-test-be -p 8080:8080 1-load-test-be:latest
+            docker run -d --name 1-load-test-be -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/1-load-test-be:latest
           EOF
